@@ -1,0 +1,95 @@
+basePath: /
+definitions:
+  resp.ResponseMsg:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data: {}
+      msg:
+        example: code=0，msg=成功，data为返回值，code!=0时，msg返回错误信息
+        type: string
+    type: object
+  vo.ApiListRequest:
+    properties:
+      category:
+        type: string
+      creator:
+        type: string
+      method:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      path:
+        type: string
+    type: object
+  vo.RegisterAndLoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+info:
+  contact:
+    email: xlnian@163.com
+    name: 念小玲
+  description: 系统项目框
+  title: 后台管理
+  version: "1.0"
+paths:
+  /api/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录信息
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/vo.ApiListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      security:
+      - ApiKeyAuth: []
+      summary: 登录-帐号与密码
+      tags:
+      - 认证
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录信息
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/vo.RegisterAndLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 登录-帐号与密码
+      tags:
+      - 认证
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

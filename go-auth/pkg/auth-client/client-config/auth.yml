@@ -1,0 +1,19 @@
+auth:
+  user-type: 0 #0内部用户,1互联网会员
+  jwt:
+    realm: nianxi-auth
+    secret: MHcCAQEEII7ENwExt67UjqohHxUL5aNIsaNnUnjA7KJMqCueJLlzoAoGCCqGSM49AwEHoUQDQgAErE3pZstMaecYt0lnIMbDTDBn4NQYT05gkDIelhOgW7r1M3nx68VZ6yzTt3whDEjxYbyrNRQLlz8Yga0Qzff8SQ==
+    expire-time-in-hours: 24
+    max-refresh: 24
+  client:
+    success-url: http://localhost:8000/web/index.html
+    logout-url: http://localhost:8000/web/login.html
+    login-url: http://localhost:8000/web/login.html
+    ignore: /auth/*,
+    grpc:
+      service:
+      host:
+      port:
+      key-file: auth-client.key
+      cert-file: auth-client.crt
+      trusted-ca-file: ca.crt

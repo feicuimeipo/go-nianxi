@@ -1,0 +1,5 @@
+{
+  "/auth/*": "/auth/$1",
+  "/home/*": "/home/$1",
+  "/home/file/*": "/home/file/$1"
+}

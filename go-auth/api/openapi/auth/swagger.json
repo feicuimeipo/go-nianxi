@@ -1,0 +1,555 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "系统项目框",
+        "title": "任务悬赏APi",
+        "contact": {
+            "name": "念小玲",
+            "email": "xlnian@163.com"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "登录-帐号与密码",
+                "parameters": [
+                    {
+                        "description": "登录信息",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/loginBySmsVerifyCode": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "登录-手机验证码",
+                "parameters": [
+                    {
+                        "description": "登录信息",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.SMSVerifyCodeLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "注册",
+                "parameters": [
+                    {
+                        "description": "注册信息",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/sendEmailVerifyCode": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "发送邮箱验证码",
+                "parameters": [
+                    {
+                        "description": "发送邮箱验证码的请求数据",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.SendEmailVerifyCodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/sendSmsVerifyCode": {
+            "post": {
+                "description": "use:1-注册帐号时确认 2:短信验证码登录 3:安全绑定 ...",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "发送手机验证码",
+                "parameters": [
+                    {
+                        "description": "发送手机验证码的请求数据",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.SendSMSVerifyCodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/captcha/check": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "验证验证码正识",
+                "parameters": [
+                    {
+                        "description": "登录信息",
+                        "name": "clientParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/router.ClientParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/captcha/get": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "获得验证码",
+                "parameters": [
+                    {
+                        "description": "登录信息",
+                        "name": "clientParams",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/router.ClientParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/security/update": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "更新用户",
+                "parameters": [
+                    {
+                        "description": "修改密码",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.EditUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/activeTenant": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "设置活跃租户的请求",
+                "parameters": [
+                    {
+                        "description": "注册信息",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.ActiveTenantRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/changePwd": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "修改密码",
+                "parameters": [
+                    {
+                        "description": "修改密码",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/vo.ChangePwdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/resp.ResponseMsg"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "resp.ResponseMsg": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {},
+                "msg": {
+                    "type": "string",
+                    "example": "code=0，msg=成功，data为返回值，code!=0时，msg返回错误信息"
+                }
+            }
+        },
+        "router.ClientParams": {
+            "type": "object",
+            "properties": {
+                "captchaType": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "pointJson": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "1234"
+                }
+            }
+        },
+        "vo.ActiveTenantRequest": {
+            "type": "object",
+            "properties": {
+                "tenantId": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "vo.ChangePwdRequest": {
+            "type": "object"
+        },
+        "vo.EditUserRequest": {
+            "type": "object",
+            "required": [
+                "userId",
+                "username"
+            ],
+            "properties": {
+                "avatar": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0,
+                    "example": "头像url"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "aa@sina.com"
+                },
+                "introduction": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0,
+                    "example": "介绍,最多255个字串长度"
+                },
+                "mobile": {
+                    "type": "string",
+                    "example": "18612345678"
+                },
+                "nickname": {
+                    "type": "string",
+                    "example": "昵称"
+                },
+                "realName": {
+                    "type": "string",
+                    "example": "真实姓名"
+                },
+                "userId": {
+                    "type": "integer",
+                    "example": 18612345678
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 2,
+                    "example": "faker"
+                }
+            }
+        },
+        "vo.LoginRequest": {
+            "type": "object"
+        },
+        "vo.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "rePassword",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "aa@sina.com"
+                },
+                "mobile": {
+                    "type": "string",
+                    "example": "18612345678"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "rePassword": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nianxi"
+                },
+                "validCode": {
+                    "type": "string",
+                    "example": "1234"
+                }
+            }
+        },
+        "vo.SMSVerifyCodeLoginRequest": {
+            "type": "object"
+        },
+        "vo.SendEmailVerifyCodeRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "use",
+                "verifyCode"
+            ],
+            "properties": {
+                "accountName": {
+                    "type": "string",
+                    "example": "18611111111"
+                },
+                "captchaType": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "abc@163.com"
+                },
+                "pointJson": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "use": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "verifyCode": {
+                    "type": "string",
+                    "example": "1234"
+                }
+            }
+        },
+        "vo.SendSMSVerifyCodeRequest": {
+            "type": "object",
+            "required": [
+                "accountName",
+                "mobile",
+                "use",
+                "verifyCode"
+            ],
+            "properties": {
+                "accountName": {
+                    "type": "string",
+                    "example": "18611111111"
+                },
+                "captchaType": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "mobile": {
+                    "type": "string",
+                    "example": "18611111111"
+                },
+                "pointJson": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "use": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "verifyCode": {
+                    "type": "string",
+                    "example": "1234"
+                }
+            }
+        }
+    }
+}

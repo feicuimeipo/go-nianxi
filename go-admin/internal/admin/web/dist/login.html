@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>登录</title>
+	<!-- 样 式 文 件 -->
+	<link rel="stylesheet" href="./libs/pear/css/pear.css" />
+	<link rel="stylesheet" href="./static/css/login.css" />
+	<link rel="stylesheet" href="libs/aj-captcha/css/verify.css" />
+
+</head>
+<!-- 代 码 结 构 -->
+<body >
+<form class="layui-form" id="layui-form" action="javascript:void(0);">
+	<div class="layui-form-item">
+		<img class="logo" src="./static/images/logo.png"  />
+		<div class="title">登录</div>
+	</div>
+	<div class="layui-form-item">
+		<input placeholder="帐号/手机号/邮箱" lay-verify="required" hover class="layui-input"  id="username"/>
+	</div>
+	<div class="layui-form-item">
+		<input placeholder="请输入密码" type="password"  autocomplete="on" lay-verify="required" hover class="layui-input"  id="password"/>
+	</div>
+	<div class="layui-form-item">
+		<input type="checkbox" name="" title="记住密码" lay-skin="primary" checked >
+	</div>
+	<div class="layui-form-item">
+		<button type="button" class="pear-btn pear-btn-success login" lay-submit lay-filter="login" id="loginBtn">登 入</button>
+	</div>
+	<div>
+		<div style="float:left;padding-left: 2px"><a href="#">忘记密码</a></div>
+		<div style="float:right;padding-right: 2px"><a href="#">注册新用户</a></div>
+	</div>
+	<div id="captchaPanel" style="margin-top:50px;">
+	</div>
+</form>
+<script>
+	(function () {
+		if (!window.Promise) {
+			document.writeln('<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.min.js"><' + '/' + 'script>');
+		}
+	})();
+</script>
+<!-- 资 源 引 入 -->
+<script type="text/javascript" src="./libs/base/jquery.min.js" ></script>
+<script src="libs/nianxi/nianxi-auth.js"></script>
+<script src="libs/aj-captcha/js/crypto-js.js"></script>
+<script src="libs/aj-captcha/js/ase.js"></script>
+<script src="libs/aj-captcha/js/verify.js" ></script>
+<script src="./libs/layui/layui.js"></script>
+<script src="./libs/pear/pear.js"></script>
+<script>
+	baseUrl = AuthApiBaseUrl
+
+   layui.use(['form', 'button', 'popup','jquery'], function() {
+		var form = layui.form;
+		var button = layui.button;
+		var popup = layui.popup;
+		var $ = layui.jquery;
+		// 登 录 提 交
+
+
+		$('#captchaPanel').pointsVerify({
+			baseUrl: baseUrl,
+			mode:'pop',
+			containerId:'loginBtn',
+			imgSize : {
+				width: '400px',
+				height: '200px',
+			},
+			barSize:{
+				width: '400px',
+				height: '40px',
+			},
+			beforeCheck:function(){
+				form.on('submit(login)', function(data) {
+
+				})
+				const name = $("#username").val();
+				const pass = $('#password').val();
+				if (name == '' || pass == '') {
+					return false
+				}
+				return true;
+			},
+			ready : function() {
+			},  //加载完毕的回调
+			success : function(params) { //成功的回调
+				console.log("验证码成功！="+params)
+				//params为返回的二次验证参数 需要在接下来的实现逻辑回传服务器
+				const dataReq = {}
+				dataReq.loginName = $("#username").val();
+				dataReq.password = $('#password').val();
+				dataReq.captcha = params
+				let api = "/auth/login";
+				let url = getQuery("redirectUrl")
+				if (url && url!=""){
+					api = api+"?redirectUrl="+url
+				}
+				AjaxPost(dataReq, api,function(r){
+					const res = eval(r)
+					if (res.code==0){
+						/// 登录
+						button.load({
+							elem: '.login',
+							time: 1500,
+							done: function() {
+								popup.success("登录成功", function() {
+									AddTokenToHeader(res.data.token)
+									let redirectUrl  = res.data.redirectUrl
+									const sign = res.data.sign
+									const token = res.data.encodeToken
+									const flag = res.data.flag
+									try{
+										redirectUrl += redirectUrl.indexOf("?")>-1 ? "&token="+token:"?token="+token
+										redirectUrl = redirectUrl+"&sign="+sign+"&flag="+flag
+										console.log("redirectUrl="+redirectUrl)
+										location.href = redirectUrl
+									}catch (e){
+										location.href = "index.html?token="+token+"&sign="+sign+"&flag="+flag
+									}
+								});
+							}
+						})
+					}else{
+						layer.msg("登录失败： "+res.msg, {icon: 6, title: "提示", offset: "auto", skin: "layui-layer-molv"})
+					}
+				},function (err){
+
+				})
+
+			},//验证码
+			error : function() {
+				return false
+			} //失败的回调
+		});
+
+
+	})
+</script>
+</body>
+</html>

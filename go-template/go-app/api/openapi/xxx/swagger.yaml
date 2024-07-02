@@ -1,0 +1,10 @@
+basePath: /
+info:
+  contact:
+    email: xlnian@163.com
+    name: 念小玲
+  description: 系统项目框
+  title: 单点登录
+  version: "1.0"
+paths: {}
+swagger: "2.0"

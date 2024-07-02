@@ -1,0 +1,373 @@
+basePath: /
+definitions:
+  resp.ResponseMsg:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data: {}
+      msg:
+        example: code=0，msg=成功，data为返回值，code!=0时，msg返回错误信息
+        type: string
+    type: object
+  router.ClientParams:
+    properties:
+      captchaType:
+        example: "1234"
+        type: string
+      pointJson:
+        example: "1234"
+        type: string
+      token:
+        example: "1234"
+        type: string
+    type: object
+  vo.ActiveTenantRequest:
+    properties:
+      tenantId:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  vo.ChangePwdRequest:
+    type: object
+  vo.EditUserRequest:
+    properties:
+      avatar:
+        example: 头像url
+        maxLength: 255
+        minLength: 0
+        type: string
+      email:
+        example: aa@sina.com
+        type: string
+      introduction:
+        example: 介绍,最多255个字串长度
+        maxLength: 255
+        minLength: 0
+        type: string
+      mobile:
+        example: "18612345678"
+        type: string
+      nickname:
+        example: 昵称
+        type: string
+      realName:
+        example: 真实姓名
+        type: string
+      userId:
+        example: 18612345678
+        type: integer
+      username:
+        example: faker
+        maxLength: 20
+        minLength: 2
+        type: string
+    required:
+    - userId
+    - username
+    type: object
+  vo.LoginRequest:
+    type: object
+  vo.RegisterRequest:
+    properties:
+      email:
+        example: aa@sina.com
+        type: string
+      mobile:
+        example: "18612345678"
+        type: string
+      password:
+        type: string
+      rePassword:
+        type: string
+      username:
+        example: nianxi
+        type: string
+      validCode:
+        example: "1234"
+        type: string
+    required:
+    - password
+    - rePassword
+    - username
+    type: object
+  vo.SMSVerifyCodeLoginRequest:
+    type: object
+  vo.SendEmailVerifyCodeRequest:
+    properties:
+      accountName:
+        example: "18611111111"
+        type: string
+      captchaType:
+        example: "1234"
+        type: string
+      email:
+        example: abc@163.com
+        type: string
+      pointJson:
+        example: "1234"
+        type: string
+      token:
+        example: "1234"
+        type: string
+      use:
+        example: 1
+        type: integer
+      verifyCode:
+        example: "1234"
+        type: string
+    required:
+    - email
+    - use
+    - verifyCode
+    type: object
+  vo.SendSMSVerifyCodeRequest:
+    properties:
+      accountName:
+        example: "18611111111"
+        type: string
+      captchaType:
+        example: "1234"
+        type: string
+      mobile:
+        example: "18611111111"
+        type: string
+      pointJson:
+        example: "1234"
+        type: string
+      token:
+        example: "1234"
+        type: string
+      use:
+        example: 1
+        type: integer
+      verifyCode:
+        example: "1234"
+        type: string
+    required:
+    - accountName
+    - mobile
+    - use
+    - verifyCode
+    type: object
+info:
+  contact:
+    email: xlnian@163.com
+    name: 念小玲
+  description: 系统项目框
+  title: 任务悬赏APi
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录信息
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/vo.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 登录-帐号与密码
+      tags:
+      - 认证
+  /auth/loginBySmsVerifyCode:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录信息
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/vo.SMSVerifyCodeLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 登录-手机验证码
+      tags:
+      - 认证
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 注册信息
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/vo.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 注册
+      tags:
+      - 认证
+  /auth/sendEmailVerifyCode:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 发送邮箱验证码的请求数据
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/vo.SendEmailVerifyCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 发送邮箱验证码
+      tags:
+      - 认证
+  /auth/sendSmsVerifyCode:
+    post:
+      consumes:
+      - application/json
+      description: use:1-注册帐号时确认 2:短信验证码登录 3:安全绑定 ...
+      parameters:
+      - description: 发送手机验证码的请求数据
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/vo.SendSMSVerifyCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 发送手机验证码
+      tags:
+      - 认证
+  /captcha/check:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录信息
+        in: body
+        name: clientParams
+        required: true
+        schema:
+          $ref: '#/definitions/router.ClientParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 验证验证码正识
+      tags:
+      - 认证
+  /captcha/get:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录信息
+        in: body
+        name: clientParams
+        required: true
+        schema:
+          $ref: '#/definitions/router.ClientParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 获得验证码
+      tags:
+      - 认证
+  /security/update:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: 修改密码
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/vo.EditUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 更新用户
+      tags:
+      - 用户
+  /user/activeTenant:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 注册信息
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/vo.ActiveTenantRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 设置活跃租户的请求
+      tags:
+      - 用户
+  /user/changePwd:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 修改密码
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/vo.ChangePwdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resp.ResponseMsg'
+      summary: 修改密码
+      tags:
+      - 用户
+swagger: "2.0"

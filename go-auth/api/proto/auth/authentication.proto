@@ -1,0 +1,67 @@
+syntax = "proto3";
+option go_package = "../../../pkg/auth-client/api/authentication;authentication";
+
+package authentication;
+
+service Authentication {
+
+  rpc GetCurrentUserInfo (UserInfoRequest) returns (UserInfoResponse) {}
+
+  rpc Logout(LogoutRequest) returns (BaseResponse) {}
+    
+}
+
+message UserInfoRequest {
+  string Token = 1;
+}
+
+message UserLoginRequest {
+  string LoginName = 1;
+  string Password = 2;
+}
+
+message ValidityRequest{
+  string Token=1;
+}
+
+message LogoutRequest{
+  string Token=1;
+}
+
+message TokenRefreshRequest{
+  string OldToken=1;
+  string NewToken=2;
+}
+
+message BaseResponse {
+  int32 Code = 1;
+  string Msg = 2;
+}
+
+
+message UserInfoDTO {
+  int64 Id=1;
+  string Username=2;
+  int32 UserType=3;
+  bool IsAdmin=4;
+  string Mobile=5;
+  string Email=6;
+  string Avatar =7;
+  string Nickname =8;
+  string Introduction =9;
+  string WxOpenId=10;
+}
+
+
+message UserInfoResponse {
+  int32 Code = 1;
+  string Msg = 2;
+  UserInfoDTO data=3;
+}
+
+
+message LoginDTO{
+  string token=1;
+  string sign =2;
+}
+

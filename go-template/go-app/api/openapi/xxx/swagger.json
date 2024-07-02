@@ -1,0 +1,14 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "系统项目框",
+        "title": "单点登录",
+        "contact": {
+            "name": "念小玲",
+            "email": "xlnian@163.com"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/",
+    "paths": {}
+}

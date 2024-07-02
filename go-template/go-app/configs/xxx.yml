@@ -1,0 +1,128 @@
+app:
+  # 设定模式(debug/release/test,正式版改为release)
+  mode: debug
+  #应用名
+  name: nianxi-admin
+  # 是否初始化数据 (没有初始数据时使用, 已发布正式版改为false)
+  init-data: true
+  language: zh #校验用该语言
+  user-type: 2
+
+auth:
+  user-update-max-time: 5 #
+  domain: loclahost #...
+  jwt:
+    realm: nianxi-auth
+    secret: MHcCAQEEII7ENwExt67UjqohHxUL5aNIsaNnUnjA7KJMqCueJLlzoAoGCCqGSM49AwEHoUQDQgAErE3pZstMaecYt0lnIMbDTDBn4NQYT05gkDIelhOgW7r1M3nx68VZ6yzTt3whDEjxYbyrNRQLlz8Yga0Qzff8SQ==
+    expire-time-in-hours: 24
+    max-refresh-in-minutes: 15
+  dev-mode: #开发模式配置
+    #supplier 如果#supplier=对接真实的环境，否则用验码码代替
+    mobile-send-verify-code-supplier-enabled: true
+    #supplier-如果#supplier=对接真实的环境
+    email-send-verify-code-supplier-enabled: true
+    #false时，验证码方式都不会出现，可用于调试
+    auth-captcha-enabled: true
+    #false时，验证码方式都不会出现，可用于调试
+    verify-code-test-value: 1234
+  client:
+    success-url: http://localhost:8000/web/index.html
+    logout-url: http://localhost:8000/web/login.html
+    login-url: http://localhost:8000/web/login.html
+    ignore: /auth/*, /web/*, /
+    grpc:
+      service: nianxi-auth
+      host: auth.915zb.com
+      port: 10086
+      wait: 2000
+      tag: auth
+      key-file: client-key\client.key
+      cert-file: client-key\client.pem
+      trusted-ca-file: client-key\ca.pem
+    #  redis:
+    #    ..
+
+cache:
+  mode: local #redis, both
+  redis:
+
+
+http:
+  port: 8000          # 程序监听端口  ssl-enabled: false
+  ssl:
+    enabled: false
+    key-file: key\server.key
+    cert-file: key\server.pem
+    trusted-ca-file: key\ca.pem
+  static-resource:
+    enabled: true
+  rate-limit:
+    fill-interval: 50
+    capacity: 200
+  cors:
+    enabled: true
+    origin: localhost
+
+
+grpc:
+  service: nianxi-auth
+  port: 10086 #>100服务开
+  key-file: key\server.key      #rsa私钥文件路径 (config.yml相对路径, 也可以填绝对路径)
+  cert-file: key\server.pem    # rsa公钥文件路径 (config.yml相对路径, 也可以填绝对路径)
+  trusted-ca-file: key\ca.pem
+  client:
+    wait: 100
+    tag: tutu
+
+etcd:
+  endpoints: "" #172.20.42.70:2379 #多个用,号隔开
+  username: root
+  password: 123456
+  dial-timeout: 50
+  cert-file: kube-grcp-172-20-42-70.pem
+  key-file: kube-grcp-172-20-42-70.pem
+  trusted-ca-file: kube-grcp-172-20-42-70.pem
+
+
+jaeger:
+  serviceName: ${app.name}
+  reporter:
+    localAgentHostPort: "jaeger-agent:6831"
+  sampler:
+    type: const
+    param: 1
+
+
+# 日志等级(-1:Debug, 0:Info, 1:Warn, 2:Error, 3:DPanic, 4:Panic, 5:Fatal, -1<=level<=5, 参照zap.level源码)
+log:
+  level: -1
+  path: /base/go-nianxi
+  filename: nianxi-auth.log   # 日志路径
+  max-size: 50      # 文件最大大小, M
+  max-backups: 100    # 备份数
+  max-age: 30    # 存放时间, 天
+  compress: false    # 是否压缩
+
+mysql:
+  # 用户名
+  username: root
+  # 密码
+  password: mysql_root_PG2l6yOkJWsC
+  # 数据库名
+  database: go_nianxi_auth
+  # 主机地址
+  host: 49.4.2.109
+  # 端口
+  port: 33306
+  # 连接字符串参数
+  query: parseTime=True&loc=Local&timeout=10000ms
+  # 是否打印日志
+  log-mode: true
+  # 编码方式
+  charset: utf8mb4
+  # 字符集(utf8mb4_general_ci速度比utf8mb4_unicode_ci快些)
+  collation: utf8mb4_general_ci
+  # 前缀
+  table-prefix: sys
+
+

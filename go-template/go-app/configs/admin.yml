@@ -1,0 +1,130 @@
+app:
+  # 设定模式(debug/release/test,正式版改为release)
+  mode: debug
+  #应用名
+  name: nianxi-admin
+  # 是否初始化数据 (没有初始数据时使用, 已发布正式版改为false)
+  init-data: true
+  language: zh #校验用该语言
+  user-type: 1
+
+# casbin配置
+casbin:
+  # 模型配置文件, config.yml相对路径
+  model-path: rbac_model.conf
+
+cache:
+  mode: local #redis, both
+
+http:
+  port: 8088          # 程序监听端口  ssl-enabled: false
+  ssl:
+    enabled: false
+    key-file: key\server.key
+    cert-file: key\server.pem
+    trusted-ca-file: key\ca.pem
+  static-resource:
+    enabled: true
+  rate-limit:
+    fill-interval: 50
+    capacity: 200
+  cors:
+    enabled: true
+    origin: http://127.0.0.1:8080
+
+
+grpc:
+  service: nianxi-auth
+  port: 10086 #>100服务开
+  key-file: key\server.key      #rsa私钥文件路径 (config.yml相对路径, 也可以填绝对路径)
+  cert-file: key\server.pem    # rsa公钥文件路径 (config.yml相对路径, 也可以填绝对路径)
+  trusted-ca-file: key\ca.pem
+  client:
+    wait: 100
+    tag: tutu
+
+etcd:
+  endpoints: "" #172.20.42.70:2379 #多个用,号隔开
+  username: root
+  password: 123456
+  dial-timeout: 50
+  cert-file: kube-grcp-172-20-42-70.pem
+  key-file: kube-grcp-172-20-42-70.pem
+  trusted-ca-file: kube-grcp-172-20-42-70.pem
+
+
+jaeger:
+  serviceName: ${app.name}
+  reporter:
+    localAgentHostPort: "jaeger-agent:6831"
+  sampler:
+    type: const
+    param: 1
+
+
+# 日志等级(-1:Debug, 0:Info, 1:Warn, 2:Error, 3:DPanic, 4:Panic, 5:Fatal, -1<=level<=5, 参照zap.level源码)
+log:
+  level: -1
+  path: /log/go-nianxi
+  filename: nianxi-admin.log   # 日志路径
+  max-size: 50      # 文件最大大小, M
+  max-backups: 100    # 备份数
+  max-age: 30    # 存放时间, 天
+  compress: false    # 是否压缩
+
+mysql:
+  main:
+    # 用户名
+    username: root
+    # 密码
+    password: mysql_root_PG2l6yOkJWsC
+    # 数据库名
+    database: go_nianxi_auth
+    # 主机地址
+    host: 49.4.2.109
+    # 端口
+    port: 33306
+    # 连接字符串参数
+    query: parseTime=True&loc=Local&timeout=10000ms
+    # 是否打印日志
+    log-mode: true
+    # 编码方式
+    charset: utf8mb4
+    # 字符集(utf8mb4_general_ci速度比utf8mb4_unicode_ci快些)
+    collation: utf8mb4_general_ci
+    # 前缀
+    table-prefix: template
+  base:
+    # 用户名
+    username: root
+    # 密码
+    password: mysql_root_PG2l6yOkJWsC
+    # 数据库名
+    database: go_nianxi_auth
+    # 主机地址
+    host: 49.4.2.109
+    # 端口
+    port: 33306
+    # 连接字符串参数
+    query: parseTime=True&loc=Local&timeout=10000ms
+    # 是否打印日志
+    log-mode: true
+    # 编码方式
+    charset: utf8mb4
+    # 字符集(utf8mb4_general_ci速度比utf8mb4_unicode_ci快些)
+    collation: utf8mb4_general_ci
+    # 前缀
+    table-prefix: sys
+
+# jwt配置
+jwt:
+  # jwt标识
+  realm: go-security jwt
+  # 服务端密钥
+  key: go-security-key
+  # token过期时间, 小时
+  timeout: 12
+  # 刷新token最大过期时间, 小时
+  max-refresh: 12
+
+

@@ -1,0 +1,28 @@
+html {
+    /*16 * 62.5% = 10px*/
+    /*1rem === 10px*/
+    font-size: 62.5%;
+}
+
+/*viewport height === vh*/
+html body #root .App {
+    min-height: 100vh;
+}
+
+body {
+    --home-border-color: rgb(0,0,0,0.1);
+    --home-nav-panel-width: 200px;
+    --home-header-panel-height: 45px;
+    --home-aside-panel-width: 45px;
+    --input-border-width: 15px;
+
+    --titleFontSize: 14px;
+    scrollbar-width: thin;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB","Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    --primary-color: #00b96b;
+
+}

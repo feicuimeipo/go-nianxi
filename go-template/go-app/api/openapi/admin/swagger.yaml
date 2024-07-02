@@ -1,0 +1,15 @@
+basePath: /
+info:
+  contact:
+    email: xlnian@163.com
+    name: 念小玲
+  description: 系统项目框
+  title: 后台管理
+  version: "1.0"
+paths: {}
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

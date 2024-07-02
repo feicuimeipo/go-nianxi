@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "../../../pkg/admin-client/api/hello;hello";
+
+
+
+package hello;
+
+service Hello {
+    rpc Ping (HelloRequest) returns (BaseResponse) {}
+}
+
+message HelloRequest {
+  string Msg = 1;
+}
+
+message BaseResponse {
+  int32 Code = 1;
+  string Msg = 2;
+}

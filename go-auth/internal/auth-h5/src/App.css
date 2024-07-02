@@ -1,0 +1,29 @@
+body {
+  --home-border-color: rgb(0,0,0,0.1);
+  --home-nav-panel-width: 200px;
+  --home-header-panel-height: 45px;
+  --home-aside-panel-width: 45px;
+  --input-border-width: 15px;
+  --primary-color: #00b96b;
+
+
+  --titleFontSize: 14px;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB","Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+/*viewport height === vh*/
+html body #root .App {
+  min-height: 100vh;
+}
+
+
+h1 h2 h3 h4 h5 h6 {
+  color: rgb(84, 84, 85);
+}
